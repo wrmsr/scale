@@ -1,3 +1,6 @@
+https://www.cs.utexas.edu/users/cart/Scale/
+
+
 To build scale alone (i.e., just the compiler), do the following:
 
 source setup_scale.sh
