@@ -3,9 +3,9 @@ package scale.common;
 /**
  * This enum specifies graphical display shapes - box,
  * circle, etc.
- * <p>
+ * <p/>
  * $Id$
- * <p>
+ * <p/>
  * Copyright 2008 by the
  * <a href="http://ali-www.cs.umass.edu/">Scale Compiler Group</a>,<br>
  * <a href="http://www.cs.umass.edu/">Department of Computer Science</a><br>
@@ -15,20 +15,20 @@ package scale.common;
  */
 public enum DShape
 {
-  BOX("box"),
-  RHOMBUS("rhombus"),
-  CIRCLE("circle"),
-  ELLIPSE("ellipse");
+    BOX("box"),
+    RHOMBUS("rhombus"),
+    CIRCLE("circle"),
+    ELLIPSE("ellipse");
 
-  private String name;
+    private String name;
 
-  private DShape(String name)
-  {
-    this.name = name;
-  }
+    private DShape(String name)
+    {
+        this.name = name;
+    }
 
-  public String sName()
-  {
-    return name;
-  }
+    public String sName()
+    {
+        return name;
+    }
 }

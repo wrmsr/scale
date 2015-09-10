@@ -1,31 +1,32 @@
 package scale.score.dependence.omega.omegaLib;
 
-import scale.common.*;
+import scale.common.Statistics;
+
 /**
  * GlobalVarDecl.
- * <p>
+ * <p/>
  * $Id: GlobalVarDecl.java,v 1.7 2005-02-07 21:28:40 burrill Exp $
- * <p>
+ * <p/>
  * Copyright 2005 by the <a href="http://spa-www.cs.umass.edu/">Scale Compiler Group</a>,<br>
  * <a href="http://www.cs.umass.edu/">Department of Computer Science</a><br>
  * <a href="http://www.umass.edu/">University of Massachusetts</a>,<br>
  * Amherst MA. 01003, USA<br>
  * All Rights Reserved.<br>
- * <p>
+ * <p/>
  * This version of the Omega Libray is a translation from C++ to Java
  * of the Omega Library developed at the University of Maryland.
  * <blockquote cite="http://www.cs.umd.edu/projects/omega">
  * Copyright (C) 1994-1996 by the Omega Project
- * <p>
+ * <p/>
  * All rights reserved.
- * <p>
+ * <p/>
  * NOTICE:  This software is provided ``as is'', without any
  * warranty, including any implied warranty for merchantability or
  * fitness for a particular purpose.  Under no circumstances shall
  * the Omega Project or its agents be liable for any use of, misuse
  * of, or inability to use this software, including incidental and
  * consequential damages.
- * <p>
+ * <p/>
  * License is hereby given to use, modify, and redistribute this
  * software, in whole or in part, for any purpose, commercial or
  * non-commercial, provided that the user agrees to the terms of this
@@ -36,7 +37,7 @@ import scale.common.*;
  * anything derived from this software assumes responsibility for
  * ensuring that any parties to whom such a redistribution is made
  * are fully aware of the terms of this license and disclaimer.
- * <p>
+ * <p/>
  * The Omega project can be contacted at
  * <a href="mailto:omega@cs.umd.edu">omega@cs.umd.edu</a>
  * or <a href="http://www.cs.umd.edu/projects/omega">http://www.cs.umd.edu/projects/omega</a>
@@ -45,92 +46,93 @@ import scale.common.*;
  * <ul>
  * <li> create global variable,
  * <li> find the arity of the variable, (default = 0, for symbolic consts)
- * <li> get the name of global variable, 
+ * <li> get the name of global variable,
  * <li> tell if two variables are the same (if they are the same object)
  * </ul>
  */
 
 public class GlobalVarDecl
 {
-  private static int createdCount = 0; /* A count of all the instances of this class that were created. */
+    private static int createdCount = 0; /* A count of all the instances of this class that were created. */
 
-  static
-  {
-    Statistics.register("scale.score.dependence.omega.omegaLib.GlobalVarDecl", "created");
-  }
+    static {
+        Statistics.register("scale.score.dependence.omega.omegaLib.GlobalVarDecl", "created");
+    }
 
-  public static int created()
-  {
-    return createdCount;
-  }
+    public static int created()
+    {
+        return createdCount;
+    }
 
-  public static final int FREE_VAR   = 0;
-  public static final int COEF_VAR   = 1;
+    public static final int FREE_VAR = 0;
+    public static final int COEF_VAR = 1;
 
-  // local representative, there is just 1 for every 0-ary global variable
-  private VarDecl loc_rep1; // arity == 0, or arity > 0 and of == In
-  private VarDecl loc_rep2; // arity > 0 and of == Out
-  private int     instance;
-  public  int     id;
+    // local representative, there is just 1 for every 0-ary global variable
+    private VarDecl loc_rep1; // arity == 0, or arity > 0 and of == In
+    private VarDecl loc_rep2; // arity > 0 and of == Out
+    private int instance;
+    public int id;
 
-  public GlobalVarDecl(String baseName)
-  {
-    this.loc_rep1 = new VarDecl(baseName, this, VarDecl.INPUT_TUPLE);
-    this.loc_rep2 = new VarDecl(baseName, this, VarDecl.OUTPUT_TUPLE);
-    id = createdCount++;
-  }
+    public GlobalVarDecl(String baseName)
+    {
+        this.loc_rep1 = new VarDecl(baseName, this, VarDecl.INPUT_TUPLE);
+        this.loc_rep2 = new VarDecl(baseName, this, VarDecl.OUTPUT_TUPLE);
+        id = createdCount++;
+    }
 
-  public void setInstance(int instance)
-  {
-    this.instance = instance;
-  }
+    public void setInstance(int instance)
+    {
+        this.instance = instance;
+    }
 
-  public int getInstance()
-  {
-    return instance;
-  }
+    public int getInstance()
+    {
+        return instance;
+    }
 
-  public String getBaseName()
-  {
-    return loc_rep1.baseName();
-  }
+    public String getBaseName()
+    {
+        return loc_rep1.baseName();
+    }
 
-  public void setBaseName(String newName)
-  {
-    loc_rep1.nameVariable(newName);
-    loc_rep2.nameVariable(newName);
-  }
+    public void setBaseName(String newName)
+    {
+        loc_rep1.nameVariable(newName);
+        loc_rep2.nameVariable(newName);
+    }
 
-  public int arity()
-  {
-    return 0;   // default compatible with old symbolic constant stuff
-  }
+    public int arity()
+    {
+        return 0;   // default compatible with old symbolic constant stuff
+    }
 
-  public CoefVarDecl reallyCoefVar()
-  {
-    throw new scale.common.InternalError("reallyCoefVar");
+    public CoefVarDecl reallyCoefVar()
+    {
+        throw new scale.common.InternalError("reallyCoefVar");
 //      return null;
-  }
+    }
 
-  public int kind() 
-  {
-    throw new scale.common.InternalError("kind");
+    public int kind()
+    {
+        throw new scale.common.InternalError("kind");
 //      return COEF_VAR;
-  }
+    }
 
-  public VarDecl getLocal()
-  {
-    if (arity() != 0)
-      throw new scale.common.InternalError("arity is " + arity());
+    public VarDecl getLocal()
+    {
+        if (arity() != 0) {
+            throw new scale.common.InternalError("arity is " + arity());
+        }
 
-    return loc_rep1;
-  }
+        return loc_rep1;
+    }
 
-  public VarDecl getLocal(int of)
-  {
-    if ((arity() != 0) && (of != VarDecl.INPUT_TUPLE) && (of != VarDecl.OUTPUT_TUPLE))
-      throw new scale.common.InternalError("arity");
+    public VarDecl getLocal(int of)
+    {
+        if ((arity() != 0) && (of != VarDecl.INPUT_TUPLE) && (of != VarDecl.OUTPUT_TUPLE)) {
+            throw new scale.common.InternalError("arity");
+        }
 
-    return (((arity() == 0) || (of == VarDecl.INPUT_TUPLE)) ? loc_rep1 : loc_rep2);
-  }
+        return (((arity() == 0) || (of == VarDecl.INPUT_TUPLE)) ? loc_rep1 : loc_rep2);
+    }
 }

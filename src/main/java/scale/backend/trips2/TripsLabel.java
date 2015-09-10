@@ -1,14 +1,13 @@
 package scale.backend.trips2;
 
-import scale.common.*;
-import scale.backend.*;
+import scale.backend.Label;
 import scale.clef.decl.RoutineDecl;
 
-/** 
+/**
  * This class marks the position of a point branched to in Trips code.
- * <p>
+ * <p/>
  * $Id: TripsLabel.java,v 1.10 2006-11-16 17:49:41 burrill Exp $
- * <p>
+ * <p/>
  * Copyright 2005 by the <a href="http://ali-www.cs.umass.edu/">Scale Compiler Group</a>,<br>
  * <a href="http://www.cs.umass.edu/">Department of Computer Science</a><br>
  * <a href="http://www.umass.edu/">University of Massachusetts</a>,<br>
@@ -16,64 +15,66 @@ import scale.clef.decl.RoutineDecl;
  * All Rights Reserved.<br>
  */
 
-public class TripsLabel extends Label
+public class TripsLabel
+        extends Label
 {
-  private RoutineDecl routine;
-  
-  /**
-   * Number of the loop this instruction is in, or 0 if none.  A
-   * value of zero indicates that the instruction is not in a loop.
-   */
-  private int loopNumber;
+    private RoutineDecl routine;
 
-  public TripsLabel(boolean referenced, RoutineDecl routine)
-  {  	
-    super(referenced);
-    this.routine = routine;
-  }
+    /**
+     * Number of the loop this instruction is in, or 0 if none.  A
+     * value of zero indicates that the instruction is not in a loop.
+     */
+    private int loopNumber;
 
-  /**
-   * Create a label.
-   * @param routine specifies the routine containing this label
-   */
-  public TripsLabel(RoutineDecl routine)
-  {
-    this(true, routine);
-  }
+    public TripsLabel(boolean referenced, RoutineDecl routine)
+    {
+        super(referenced);
+        this.routine = routine;
+    }
 
-  public RoutineDecl getRoutine()
-  {
-    return routine;
-  }
+    /**
+     * Create a label.
+     *
+     * @param routine specifies the routine containing this label
+     */
+    public TripsLabel(RoutineDecl routine)
+    {
+        this(true, routine);
+    }
 
-  /**
-   * Return the String representing the label.
-   */
-  public String getLabelString()
-  {
-    StringBuffer buf = new StringBuffer(this.getRoutine().getName());
-    buf.append('$');
-    buf.append(this.getLabelIndex());
-    return buf.toString();
-  }
+    public RoutineDecl getRoutine()
+    {
+        return routine;
+    }
 
-  /**
-   * Return the loop number of the instruction.
-   * This is Trips specific.  For all other backends,
-   * it returns 0.
-   */
-  public int getLoopNumber()
-  {
-    return loopNumber;
-  }
+    /**
+     * Return the String representing the label.
+     */
+    public String getLabelString()
+    {
+        StringBuffer buf = new StringBuffer(this.getRoutine().getName());
+        buf.append('$');
+        buf.append(this.getLabelIndex());
+        return buf.toString();
+    }
 
-  /**
-   * Set the loop number of the instruction.
-   * This is Trips specific.  For all other backends,
-   * it does nothing.
-   */
-  protected void setLoopNumber(int loopNumber)
-  {
-    this.loopNumber = loopNumber;
-  }
+    /**
+     * Return the loop number of the instruction.
+     * This is Trips specific.  For all other backends,
+     * it returns 0.
+     */
+    public int getLoopNumber()
+    {
+        return loopNumber;
+    }
+
+    /**
+     * Set the loop number of the instruction.
+     * This is Trips specific.  For all other backends,
+     * it does nothing.
+     */
+    protected void setLoopNumber(int loopNumber)
+    {
+        this.loopNumber = loopNumber;
+    }
 }

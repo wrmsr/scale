@@ -1,28 +1,28 @@
 <html>
 <head>
-<title>Alias Analysis</title>
+    <title>Alias Analysis</title>
 </head>
 <body bgcolor="white">
 Provides alias analysis.
 <p>
-The Scale compile may perform alias analysis either:
+    The Scale compile may perform alias analysis either:
 <ul>
-<li>interprocedurally 
-<li>intraprocedurally
-<li>never
+    <li>interprocedurally
+    <li>intraprocedurally
+    <li>never
 </ul>
 This analysis may be performed by:
 <ul>
-<li><a href="#cite">Bjarne Steensgaard's Algorithm</a>
-<ul>
-<li>a rich points-to set describes the variables 
-<li>interprocedural flow-insensitive analysis
-<li>almost-linear time complexity
-<li>linear space complexity
-<li>based upon type-inference methods
-</ul>
-<li><a href="#cite">Shapiro-Horowitz's Extension to Steensgaard's Algorithm</a>
-<li>a Simple Algorithm which uses a single points-to set
+    <li><a href="#cite">Bjarne Steensgaard's Algorithm</a>
+        <ul>
+            <li>a rich points-to set describes the variables
+            <li>interprocedural flow-insensitive analysis
+            <li>almost-linear time complexity
+            <li>linear space complexity
+            <li>based upon type-inference methods
+        </ul>
+    <li><a href="#cite">Shapiro-Horowitz's Extension to Steensgaard's Algorithm</a>
+    <li>a Simple Algorithm which uses a single points-to set
 </ul>
 No alias analysis may also be selected in which case most Scale optimizations can not be performed.
 

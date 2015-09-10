@@ -1,21 +1,21 @@
 package scale.backend.xyz;
 
-import scale.common.*;
-import scale.clef.type.*;
-import scale.clef.decl.FieldDecl;
 import scale.backend.Generator;
+import scale.clef.type.Type;
+import scale.common.Machine;
+import scale.common.Vector;
 
 /**
  * This is the base class for all Xyz specific information.
- * <p>
+ * <p/>
  * $Id: XyzMachine.java,v 1.4 2007-11-01 16:52:30 burrill Exp $
- * <p>
+ * <p/>
  * Copyright 2007 by the <a href="http://ali-www.cs.umass.edu/">Scale Compiler Group</a>,<br>
  * <a href="http://www.cs.umass.edu/">Department of Computer Science</a><br>
  * <a href="http://www.umass.edu/">University of Massachusetts</a>,<br>
  * Amherst MA. 01003, USA<br>
  * All Rights Reserved.<br>
- * <p>
+ * <p/>
  * This class is used by the compiler to determine architecture
  * specific information.  You must modify each method to provide the
  * information specific to your system.  Some of the methods below are
@@ -24,30 +24,32 @@ import scale.backend.Generator;
  * base class is suitable.  Use the machine classes from the other
  * architectures to help you understand how to make changes for your
  * architecture.
+ *
  * @see scale.common.Machine
  * @see scale.backend.alpha.AlphaMachine
  * @see scale.backend.sparc.SparcMachine
  * @see scale.backend.ppc.PPCMachine
  */
-public class XyzMachine extends Machine
+public class XyzMachine
+        extends Machine
 {
-  private static final int capabilities = 0;
+    private static final int capabilities = 0;
 
-  /**
-   * Create a Machine instance for an Xyz.
-   */
-  public XyzMachine()
-  {
-    super(capabilities);
+    /**
+     * Create a Machine instance for an Xyz.
+     */
+    public XyzMachine()
+    {
+        super(capabilities);
 
-    scale.clef.type.PointerType.setMinBitSize(64);
-  }
+        scale.clef.type.PointerType.setMinBitSize(64);
+    }
 
-  protected void setup()
-  {
-    super.setup();
+    protected void setup()
+    {
+        super.setup();
 
-    // Specify the types that are different.
+        // Specify the types that are different.
 
 //     scale.clef.type.PointerType.setMinBitSize(32);
 
@@ -72,200 +74,204 @@ public class XyzMachine extends Machine
 //     doubleType                  = scale.clef.type.FloatType.create(64);
 //     longDoubleType              = scale.clef.type.FloatType.create(64);
 
-    // Specify other things.
+        // Specify other things.
 
 //     cacheLineSize = 16;
-  }
-
-  protected void setUnsignedCharType()
-  {
-    unsignedCharType = scale.clef.type.UnsignedIntegerType.create(8);
-  }
-
-  protected void setSignedShortType()
-  {
-    signedShortType = scale.clef.type.SignedIntegerType.create(16);
-  }
-
-  protected void setUnsignedShortType()
-  {
-    unsignedShortType = scale.clef.type.UnsignedIntegerType.create(16);
-  }
-
-  protected void setSignedIntType()
-  {
-    signedIntType = scale.clef.type.SignedIntegerType.create(32);
-  }
-
-  protected void setUnsignedIntType()
-  {
-    unsignedIntType = scale.clef.type.UnsignedIntegerType.create(32);
-  }
-
-  protected void setSignedLongType()
-  {
-    signedLongType = scale.clef.type.SignedIntegerType.create(32);
-  }
-
-  protected void setUnsignedLongType()
-  {
-    unsignedLongType = scale.clef.type.UnsignedIntegerType.create(32);
-  }
-
-  protected void setSignedLongLongType()
-  {
-    signedLongLongType = scale.clef.type.SignedIntegerType.create(64);
-  }
-
-  protected void setUnsignedLongLongType()
-  {
-    unsignedLongLongType = scale.clef.type.UnsignedIntegerType.create(64);
-  }
-
-  protected void setSizetType()
-  {
-    sizetType = scale.clef.type.UnsignedIntegerType.create(32);
-  }
-
-  protected void setVoidStarType()
-  {
-    voidStarType = scale.clef.type.PointerType.create(scale.clef.type.VoidType.type);
-  }
-
-  protected void setFloatType()
-  {
-    floatType = scale.clef.type.FloatType.create(32);
-  }
-
-  protected void setDoubleType()
-  {
-    doubleType = scale.clef.type.FloatType.create(64);
-  }
-
-  protected void setLongDoubleType()
-  {
-    longDoubleType = scale.clef.type.FloatType.create(64);
-  }
-
-  protected void setVaListType()
-  {
-    throw new scale.common.NotImplementedError("setVaListType");
-  }
-
-  public String getGenericArchitectureName()
-  {
-    return "Xyz";
-  }
-
-  public String getArchitectureName()
-  {
-    return "Xyz";
-  }
-
-  /**
-   * Determine the architecture sub-type.
-   * @param architecture specifies the target architecture
-   * @param extension specifies an extension to the a target architecture
-   * @return the name of the specific target architecture generator class.
-   * @throws java.lang.Exception if the extension is not understood
-   */
-  public String determineArchitecture(String architecture,
-                                      String extension) throws java.lang.Exception
-  {
-
-    // Determine what additional Xyz features are available.
-
-    int len   = extension.length();
-    int index = 0;
-    while (index < len) {
-      int sl = extension.indexOf('/', index);
-      if (sl < 0)
-        sl = len;
-      String opt = extension.substring(index, sl);
-      index = sl + 1;
     }
 
-    return "scale.backend.xyz.XyzGenerator";
-  }
+    protected void setUnsignedCharType()
+    {
+        unsignedCharType = scale.clef.type.UnsignedIntegerType.create(8);
+    }
 
-  public int alignData(int dataSize)
-  {
-    throw new scale.common.NotImplementedError("alignData");
-  }
+    protected void setSignedShortType()
+    {
+        signedShortType = scale.clef.type.SignedIntegerType.create(16);
+    }
 
-  public int addressableMemoryUnits(int bitSize)
-  {
-    return ((bitSize + 7) / 8);
-  }
+    protected void setUnsignedShortType()
+    {
+        unsignedShortType = scale.clef.type.UnsignedIntegerType.create(16);
+    }
 
-  public boolean simpleInteger(long value)
-  {
-    int val = (int) value;
-    return (val == value);
-  }
+    protected void setSignedIntType()
+    {
+        signedIntType = scale.clef.type.SignedIntegerType.create(32);
+    }
 
-  public int executionCostEstimate(long value)
-  {
-    throw new scale.common.NotImplementedError("executionCostEstimate");
-  }
+    protected void setUnsignedIntType()
+    {
+        unsignedIntType = scale.clef.type.UnsignedIntegerType.create(32);
+    }
 
-  public int executionCostEstimate(double value)
-  {
-    throw new scale.common.NotImplementedError("executionCostEstimate");
-  }
+    protected void setSignedLongType()
+    {
+        signedLongType = scale.clef.type.SignedIntegerType.create(32);
+    }
 
-  public int maxBitFieldSize()
-  {
-    return 64;
-  }
+    protected void setUnsignedLongType()
+    {
+        unsignedLongType = scale.clef.type.UnsignedIntegerType.create(32);
+    }
 
-  public String getAsmFileExtension()
-  {
-    return ".s";
-  }
-  
-  public void addCPPFlags(Vector<String> v)
-  {
-    v.addElement("__Xyz=1");
-  }
+    protected void setSignedLongLongType()
+    {
+        signedLongLongType = scale.clef.type.SignedIntegerType.create(64);
+    }
 
-  public final int generalAlignment()
-  {
-    return 8;
-  }
+    protected void setUnsignedLongLongType()
+    {
+        unsignedLongLongType = scale.clef.type.UnsignedIntegerType.create(64);
+    }
 
-  public final int stackAlignment(Type type)
-  {
-    return 8;
-  }
+    protected void setSizetType()
+    {
+        sizetType = scale.clef.type.UnsignedIntegerType.create(32);
+    }
 
-  public boolean littleEndian()
-  {
-    return false;
-  }
+    protected void setVoidStarType()
+    {
+        voidStarType = scale.clef.type.PointerType.create(scale.clef.type.VoidType.type);
+    }
 
-  public String getAssemblerCommand(int backendFeatures)
-  {
-    StringBuffer buf = new StringBuffer("as ");
-    if ((backendFeatures & Generator.DEBUG) != 0)
-      buf.append("-g ");
-    return buf.toString();
-  }
+    protected void setFloatType()
+    {
+        floatType = scale.clef.type.FloatType.create(32);
+    }
 
-  public boolean keepTypeInRegister(Type type, boolean temporary)
-  {
-    throw new scale.common.NotImplementedError("keepTypeInRegister");
-  }
+    protected void setDoubleType()
+    {
+        doubleType = scale.clef.type.FloatType.create(64);
+    }
 
-  public scale.backend.ICEstimator getInstructionCountEstimator()
-  {
-    return new scale.backend.ICEstimator(currentMachine);
-  }
+    protected void setLongDoubleType()
+    {
+        longDoubleType = scale.clef.type.FloatType.create(64);
+    }
 
-  public byte[] getFunctionalUnitDescriptions()
-  {
-    return functionalUnits;
-  }
+    protected void setVaListType()
+    {
+        throw new scale.common.NotImplementedError("setVaListType");
+    }
 
-  private static final byte[] functionalUnits = {1, 4, 4, 2, 1};
+    public String getGenericArchitectureName()
+    {
+        return "Xyz";
+    }
+
+    public String getArchitectureName()
+    {
+        return "Xyz";
+    }
+
+    /**
+     * Determine the architecture sub-type.
+     *
+     * @param architecture specifies the target architecture
+     * @param extension specifies an extension to the a target architecture
+     * @return the name of the specific target architecture generator class.
+     * @throws java.lang.Exception if the extension is not understood
+     */
+    public String determineArchitecture(String architecture,
+            String extension)
+            throws java.lang.Exception
+    {
+
+        // Determine what additional Xyz features are available.
+
+        int len = extension.length();
+        int index = 0;
+        while (index < len) {
+            int sl = extension.indexOf('/', index);
+            if (sl < 0) {
+                sl = len;
+            }
+            String opt = extension.substring(index, sl);
+            index = sl + 1;
+        }
+
+        return "scale.backend.xyz.XyzGenerator";
+    }
+
+    public int alignData(int dataSize)
+    {
+        throw new scale.common.NotImplementedError("alignData");
+    }
+
+    public int addressableMemoryUnits(int bitSize)
+    {
+        return ((bitSize + 7) / 8);
+    }
+
+    public boolean simpleInteger(long value)
+    {
+        int val = (int) value;
+        return (val == value);
+    }
+
+    public int executionCostEstimate(long value)
+    {
+        throw new scale.common.NotImplementedError("executionCostEstimate");
+    }
+
+    public int executionCostEstimate(double value)
+    {
+        throw new scale.common.NotImplementedError("executionCostEstimate");
+    }
+
+    public int maxBitFieldSize()
+    {
+        return 64;
+    }
+
+    public String getAsmFileExtension()
+    {
+        return ".s";
+    }
+
+    public void addCPPFlags(Vector<String> v)
+    {
+        v.addElement("__Xyz=1");
+    }
+
+    public final int generalAlignment()
+    {
+        return 8;
+    }
+
+    public final int stackAlignment(Type type)
+    {
+        return 8;
+    }
+
+    public boolean littleEndian()
+    {
+        return false;
+    }
+
+    public String getAssemblerCommand(int backendFeatures)
+    {
+        StringBuffer buf = new StringBuffer("as ");
+        if ((backendFeatures & Generator.DEBUG) != 0) {
+            buf.append("-g ");
+        }
+        return buf.toString();
+    }
+
+    public boolean keepTypeInRegister(Type type, boolean temporary)
+    {
+        throw new scale.common.NotImplementedError("keepTypeInRegister");
+    }
+
+    public scale.backend.ICEstimator getInstructionCountEstimator()
+    {
+        return new scale.backend.ICEstimator(currentMachine);
+    }
+
+    public byte[] getFunctionalUnitDescriptions()
+    {
+        return functionalUnits;
+    }
+
+    private static final byte[] functionalUnits = {1, 4, 4, 2, 1};
 }

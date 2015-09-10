@@ -1,13 +1,14 @@
 package scale.backend.ppc;
 
-import scale.common.*;
-import scale.backend.*;
+import scale.backend.Assembler;
+import scale.backend.LineMarker;
+import scale.common.Emit;
 
-/** 
+/**
  * This class is used to associate source line numbers with instructions.
- * <p>
+ * <p/>
  * $Id: PPCLineMarker.java,v 1.2 2005-02-07 21:27:32 burrill Exp $
- * <p>
+ * <p/>
  * Copyright 2005 by the <a href="http://ali-www.cs.umass.edu/">Scale Compiler Group</a>,<br>
  * <a href="http://www.cs.umass.edu/">Department of Computer Science</a><br>
  * <a href="http://www.umass.edu/">University of Massachusetts</a>,<br>
@@ -15,27 +16,28 @@ import scale.backend.*;
  * All Rights Reserved.<br>
  */
 
-public class PPCLineMarker extends LineMarker
+public class PPCLineMarker
+        extends LineMarker
 {
-  public PPCLineMarker(Object marker, int lineNumber)
-  {
-    super(marker, lineNumber);
-  }
+    public PPCLineMarker(Object marker, int lineNumber)
+    {
+        super(marker, lineNumber);
+    }
 
-  /**
-   * Insert the assembler representation of the instruction into the output stream. 
-   */
-  public void assembler(Assembler gen, Emit emit)
-  {
-    emit.emit("\t#\tline ");
-    emit.emit(lineNumber());
-  }
+    /**
+     * Insert the assembler representation of the instruction into the output stream.
+     */
+    public void assembler(Assembler gen, Emit emit)
+    {
+        emit.emit("\t#\tline ");
+        emit.emit(lineNumber());
+    }
 
-  /**
-   * Insert the assembler representation of the instruction into the output stream. 
-   */
-  public String toString()
-  {
-    return "#\tline " + lineNumber();
-  }
+    /**
+     * Insert the assembler representation of the instruction into the output stream.
+     */
+    public String toString()
+    {
+        return "#\tline " + lineNumber();
+    }
 }

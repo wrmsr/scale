@@ -1,13 +1,13 @@
 package scale.clef.expr;
 
-import scale.clef.*;
-import scale.clef.type.*;
+import scale.clef.Predicate;
+import scale.clef.type.Type;
 
 /**
  * This is the base class for all modify and replace operations such as <tt>x++</tt>.
- * <p>
+ * <p/>
  * $Id: IncrementOp.java,v 1.23 2005-03-17 14:11:32 burrill Exp $
- * <p>
+ * <p/>
  * Copyright 2005 by the <a href="http://ali-www.cs.umass.edu/">Scale Compiler Group</a>,<br>
  * <a href="http://www.cs.umass.edu/">Department of Computer Science</a><br>
  * <a href="http://www.umass.edu/">University of Massachusetts</a>,<br>
@@ -15,20 +15,21 @@ import scale.clef.type.*;
  * All Rights Reserved.<br>
  */
 
-public abstract class IncrementOp extends MonadicOp 
+public abstract class IncrementOp
+        extends MonadicOp
 {
-  public IncrementOp(Type type, Expression e)
-  {
-    super(type, e);
-  }
+    public IncrementOp(Type type, Expression e)
+    {
+        super(type, e);
+    }
 
-  public boolean isSimpleOp()
-  {
-    return false;
-  }
+    public boolean isSimpleOp()
+    {
+        return false;
+    }
 
-  public void visit(Predicate p)
-  {
-    p.visitIncrementOp(this);
-  }
+    public void visit(Predicate p)
+    {
+        p.visitIncrementOp(this);
+    }
 }

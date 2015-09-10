@@ -1,14 +1,14 @@
 package scale.jcr;
 
-import java.io.*;
+import java.io.DataInputStream;
 
 /**
  * This class is used to both represent a Java class file field
  * reference constant pool entry and to read that class file field
  * reference constant pool entry.
- * <p>
+ * <p/>
  * $Id: FieldRefCPInfo.java,v 1.9 2007-10-04 19:58:16 burrill Exp $
- * <p>
+ * <p/>
  * Copyright 2007 by the
  * <a href="http://ali-www.cs.umass.edu/">Scale Compiler Group</a>,<br>
  * <a href="http://www.cs.umass.edu/">Department of Computer Science</a><br>
@@ -16,18 +16,20 @@ import java.io.*;
  * Amherst MA. 01003, USA<br>
  * All Rights Reserved.<br>
  */
-public class FieldRefCPInfo extends RefCPInfo
+public class FieldRefCPInfo
+        extends RefCPInfo
 {
-  public FieldRefCPInfo(int classIndex, int nameAndTypeIndex)
-  {
-    super(CPInfo.CONSTANT_Fieldref, classIndex, nameAndTypeIndex);
-  }
+    public FieldRefCPInfo(int classIndex, int nameAndTypeIndex)
+    {
+        super(CPInfo.CONSTANT_Fieldref, classIndex, nameAndTypeIndex);
+    }
 
-  public static CPInfo read(ClassFile       cf,
-                            DataInputStream reader) throws java.io.IOException
-  {
-    int classIndex       = reader.readUnsignedShort();
-    int nameAndTypeIndex = reader.readUnsignedShort();
-    return new FieldRefCPInfo(classIndex, nameAndTypeIndex);
-  }
+    public static CPInfo read(ClassFile cf,
+            DataInputStream reader)
+            throws java.io.IOException
+    {
+        int classIndex = reader.readUnsignedShort();
+        int nameAndTypeIndex = reader.readUnsignedShort();
+        return new FieldRefCPInfo(classIndex, nameAndTypeIndex);
+    }
 }

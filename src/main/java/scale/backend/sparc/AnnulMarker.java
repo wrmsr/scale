@@ -1,19 +1,21 @@
 package scale.backend.sparc;
 
-import scale.common.*;
-import scale.backend.*;
+import scale.backend.Assembler;
+import scale.backend.Marker;
+import scale.backend.RegisterAllocator;
+import scale.common.Emit;
 
-/** 
+/**
  * This class marks the effective position of an annulled instruction.
- * <p>
+ * <p/>
  * $Id: AnnulMarker.java,v 1.9 2005-03-24 13:56:52 burrill Exp $
- * <p>
+ * <p/>
  * Copyright 2005 by the <a href="http://ali-www.cs.umass.edu/">Scale Compiler Group</a>,<br>
  * <a href="http://www.cs.umass.edu/">Department of Computer Science</a><br>
  * <a href="http://www.umass.edu/">University of Massachusetts</a>,<br>
  * Amherst MA. 01003, USA<br>
  * All Rights Reserved.<br>
- * <p>
+ * <p/>
  * An annulled instruction acts as if it is part of the true edge of a
  * branch instruction.  For analysis purposes, it must seem to exist
  * on that edge.   For example,
@@ -38,39 +40,41 @@ import scale.backend.*;
  * instruction will be removed by the register allocation pass.
  */
 
-public class AnnulMarker extends Marker
+public class AnnulMarker
+        extends Marker
 {
-  /**
-   * - the link to the annulled instruction.
-   */
-  private SparcInstruction annulled;
+    /**
+     * - the link to the annulled instruction.
+     */
+    private SparcInstruction annulled;
 
-  public AnnulMarker(SparcInstruction annulled)
-  {
-    this.annulled = annulled;
-  }
+    public AnnulMarker(SparcInstruction annulled)
+    {
+        this.annulled = annulled;
+    }
 
-  /**
-   * Specify the registers used by this instruction.
-   * @param rs is the register set in use
-   * @param index is an index associated with the instruction
-   * @param strength is the importance of the instruction
-   * @see scale.backend.RegisterAllocator#useRegister(int,int,int)
-   * @see scale.backend.RegisterAllocator#defRegister(int,int)
-   */
-  public void specifyRegisterUsage(RegisterAllocator rs, int index, int strength)
-  {
-    annulled.specifyRegisterUsage(rs, index, strength);
-  }
+    /**
+     * Specify the registers used by this instruction.
+     *
+     * @param rs is the register set in use
+     * @param index is an index associated with the instruction
+     * @param strength is the importance of the instruction
+     * @see scale.backend.RegisterAllocator#useRegister(int, int, int)
+     * @see scale.backend.RegisterAllocator#defRegister(int, int)
+     */
+    public void specifyRegisterUsage(RegisterAllocator rs, int index, int strength)
+    {
+        annulled.specifyRegisterUsage(rs, index, strength);
+    }
 
-  public void assembler(Assembler asm, Emit emit)
-  {
-  }
+    public void assembler(Assembler asm, Emit emit)
+    {
+    }
 
-  public String toString()
-  {
-    StringBuffer buf = new StringBuffer("AnnulMarker ");
-    buf.append(annulled);
-    return buf.toString();
-  }
+    public String toString()
+    {
+        StringBuffer buf = new StringBuffer("AnnulMarker ");
+        buf.append(annulled);
+        return buf.toString();
+    }
 }

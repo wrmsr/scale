@@ -3,9 +3,9 @@ package scale.clef.expr;
 /**
  * This enum specifies the type of shift operation - logical left,
  * arithmetic right, etc.
- * <p>
+ * <p/>
  * $Id$
- * <p>
+ * <p/>
  * Copyright 2008 by the
  * <a href="http://ali-www.cs.umass.edu/">Scale Compiler Group</a>,<br>
  * <a href="http://www.cs.umass.edu/">Department of Computer Science</a><br>
@@ -15,26 +15,26 @@ package scale.clef.expr;
  */
 public enum ShiftMode
 {
-  /**
-   * The shift is to the righ with sign extension.
-   */
- SignedRight(),
-  /**
-   * The shift is to the righ with zero bit fill on the left.
-   */
- UnsignedRight(),
-  /**
-   * The shift is to the left with zero bit fill on the right.
-   */
- Left(),
-  /**
-   * The shift is to the left with bits shifted off the left side
-   * inserted on the right.
-   */
- LeftRotate(),
-  /**
-   * The shift is to the right with bits shifted off the right side
-   * inserted on the left.
-   */
- RightRotate();
+    /**
+     * The shift is to the righ with sign extension.
+     */
+    SignedRight(),
+    /**
+     * The shift is to the righ with zero bit fill on the left.
+     */
+    UnsignedRight(),
+    /**
+     * The shift is to the left with zero bit fill on the right.
+     */
+    Left(),
+    /**
+     * The shift is to the left with bits shifted off the left side
+     * inserted on the right.
+     */
+    LeftRotate(),
+    /**
+     * The shift is to the right with bits shifted off the right side
+     * inserted on the left.
+     */
+    RightRotate();
 }

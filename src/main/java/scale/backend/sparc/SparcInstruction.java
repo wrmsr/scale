@@ -1,19 +1,23 @@
 package scale.backend.sparc;
 
-import scale.common.*;
-import scale.backend.*;
+import scale.backend.Assembler;
+import scale.backend.Displacement;
+import scale.backend.Instruction;
+import scale.backend.RegisterAllocator;
+import scale.backend.RegisterSet;
+import scale.common.Emit;
 
-/** 
+/**
  * This is the base class for all Sparc instructions except branches.
- * <p>
+ * <p/>
  * $Id: SparcInstruction.java,v 1.23 2007-09-20 18:56:42 burrill Exp $
- * <p>
+ * <p/>
  * Copyright 2007 by the <a href="http://ali-www.cs.umass.edu/">Scale Compiler Group</a>,<br>
  * <a href="http://www.cs.umass.edu/">Department of Computer Science</a><br>
  * <a href="http://www.umass.edu/">University of Massachusetts</a>,<br>
  * Amherst MA. 01003, USA<br>
  * All Rights Reserved.<br>
- * <p>
+ * <p/>
  * <pre>
  * Inst  Op Format                                Repr. Instruction           Class
  * 00    1  disp30                                call     label              CallInstruction
@@ -53,182 +57,188 @@ import scale.backend.*;
  * 29    2    rd-op3- rs1-rcnd-opf_low-rs2        fmovrcc  reg,reg,reg        FltOp2Instruction
  * 30    2    rd-op3-cond-opf_cc-opf_low-rs2      fmovscc  %cc,reg,reg        FmoveInstruction
  * </pre>
- * The Inst references Figures 33 & 34 on pages 64 & 65 of the 
+ * The Inst references Figures 33 & 34 on pages 64 & 65 of the
  * Sparc Architecture Manual Version 9.
  */
 
-public abstract class SparcInstruction extends Instruction
+public abstract class SparcInstruction
+        extends Instruction
 {
-  /**
-   * the instruction opcode
-   */
-  protected int opcode;
+    /**
+     * the instruction opcode
+     */
+    protected int opcode;
 
-  /**
-   * flags that specify the condition codes set by the instruction
-   */
-  protected byte setCC;
-  /**
-   * flags that specify the condition codes used by the instruction
-   */
-  protected byte useCC;
+    /**
+     * flags that specify the condition codes set by the instruction
+     */
+    protected byte setCC;
+    /**
+     * flags that specify the condition codes used by the instruction
+     */
+    protected byte useCC;
 
-  /**
-   * @param opcode is the instruction's opcode
-   */
-  public SparcInstruction(int opcode)
-  {
-    this.opcode = opcode;
-    this.setCC  = 0;
-    this.useCC  = 0;
-  }
+    /**
+     * @param opcode is the instruction's opcode
+     */
+    public SparcInstruction(int opcode)
+    {
+        this.opcode = opcode;
+        this.setCC = 0;
+        this.useCC = 0;
+    }
 
-  public int getOpcode()
-  {
-    return opcode;
-  }
+    public int getOpcode()
+    {
+        return opcode;
+    }
 
-  protected void setOpcode(int opcode)
-  {
-    this.opcode = opcode;
-  }
+    protected void setOpcode(int opcode)
+    {
+        this.opcode = opcode;
+    }
 
-  /**
-   * Return true if the instruction uses the register.
-   */
-  public boolean uses(int register, RegisterSet registers)
-  {
-    return false;
-  }
+    /**
+     * Return true if the instruction uses the register.
+     */
+    public boolean uses(int register, RegisterSet registers)
+    {
+        return false;
+    }
 
-  /**
-   * Return true if the instruction sets the register.
-   */
-  public boolean defs(int register, RegisterSet registers)
-  {
-    return false;
-  }
+    /**
+     * Return true if the instruction sets the register.
+     */
+    public boolean defs(int register, RegisterSet registers)
+    {
+        return false;
+    }
 
-  /**
-   * @return the number of bytes required for the BranchRegInstruction
-   */
-  public int instructionSize()
-  {
-    return 4;
-  }
+    /**
+     * @return the number of bytes required for the BranchRegInstruction
+     */
+    public int instructionSize()
+    {
+        return 4;
+    }
 
-  /**
-   * Specify the CC set by this instruction.
-   */
-  public final void setSetCC(int cc)
-  {
-    this.setCC |= SparcGenerator.ccFlgTab[cc];
-  }
+    /**
+     * Specify the CC set by this instruction.
+     */
+    public final void setSetCC(int cc)
+    {
+        this.setCC |= SparcGenerator.ccFlgTab[cc];
+    }
 
-  /**
-   * Specify the CCs used by this instruction.
-   */
-  public final void setUseCC(int cc)
-  {
-    this.useCC |= SparcGenerator.ccFlgTab[cc];
-  }
+    /**
+     * Specify the CCs used by this instruction.
+     */
+    public final void setUseCC(int cc)
+    {
+        this.useCC |= SparcGenerator.ccFlgTab[cc];
+    }
 
-  /**
-   * Return true if the instruction sets the CC flag specified.
-   * @param cc specifies the CC
-   */
-  public final boolean setsCC(int cc)
-  {
-    return (0 != (SparcGenerator.ccFlgTab[cc] & setCC));
-  }
+    /**
+     * Return true if the instruction sets the CC flag specified.
+     *
+     * @param cc specifies the CC
+     */
+    public final boolean setsCC(int cc)
+    {
+        return (0 != (SparcGenerator.ccFlgTab[cc] & setCC));
+    }
 
-  /**
-   * Return true if this instruction has a side effect of changing a
-   * special register.  An example would be a condition code register
-   * for architectures that set the condition and tehn branch on it
-   * such as the Sparc.
-   */
-  public boolean setsSpecialReg()
-  {
-    return (setCC != 0);
-  }
+    /**
+     * Return true if this instruction has a side effect of changing a
+     * special register.  An example would be a condition code register
+     * for architectures that set the condition and tehn branch on it
+     * such as the Sparc.
+     */
+    public boolean setsSpecialReg()
+    {
+        return (setCC != 0);
+    }
 
-  /**
-   * Return true if the instruction uses the CC flag specified.
-   * @param cc specifies the CC
-   */
-  public final boolean usesCC(int cc)
-  {
-    return (0 != (SparcGenerator.ccFlgTab[cc] & useCC));
-  }
+    /**
+     * Return true if the instruction uses the CC flag specified.
+     *
+     * @param cc specifies the CC
+     */
+    public final boolean usesCC(int cc)
+    {
+        return (0 != (SparcGenerator.ccFlgTab[cc] & useCC));
+    }
 
-  /**
-   * Return true if this instruction's CC use is independent of the
-   * specified instruction.  If instructions are independent, than one
-   * instruction can be moved before or after the other instruction
-   * without changing the semantics of the program.
-   * @param inst is the specified instruction
-   */
-  protected final boolean independentCC(SparcInstruction inst)
-  {
-    return (0 == ((setCC & inst.setCC) |
-                  (setCC & inst.useCC) |
-                  (useCC & inst.setCC)));
-  }
+    /**
+     * Return true if this instruction's CC use is independent of the
+     * specified instruction.  If instructions are independent, than one
+     * instruction can be moved before or after the other instruction
+     * without changing the semantics of the program.
+     *
+     * @param inst is the specified instruction
+     */
+    protected final boolean independentCC(SparcInstruction inst)
+    {
+        return (0 == ((setCC & inst.setCC) |
+                (setCC & inst.useCC) |
+                (useCC & inst.setCC)));
+    }
 
-  /**
-   * Specify the registers used and defined by this instruction.
-   * Uses must be specified before definitions.
-   * @param rs is the register set in use
-   * @param index is an index associated with the instruction
-   * @param strength is the importance of the instruction
-   * @see scale.backend.RegisterAllocator#useRegister(int,int,int)
-   * @see scale.backend.RegisterAllocator#defRegister(int,int)
-   */
-  public void specifyRegisterUsage(RegisterAllocator rs, int index, int strength)
-  {
-  }
+    /**
+     * Specify the registers used and defined by this instruction.
+     * Uses must be specified before definitions.
+     *
+     * @param rs is the register set in use
+     * @param index is an index associated with the instruction
+     * @param strength is the importance of the instruction
+     * @see scale.backend.RegisterAllocator#useRegister(int, int, int)
+     * @see scale.backend.RegisterAllocator#defRegister(int, int)
+     */
+    public void specifyRegisterUsage(RegisterAllocator rs, int index, int strength)
+    {
+    }
 
-  public void remapRegisters(int[] map)
-  {
-  }
+    public void remapRegisters(int[] map)
+    {
+    }
 
-  /**
-   * Return true if the instruction can be deleted without changing
-   * program semantics.
-   */
-  public boolean canBeDeleted(RegisterSet registers)
-  {
-    return nullified();
-  }
+    /**
+     * Return true if the instruction can be deleted without changing
+     * program semantics.
+     */
+    public boolean canBeDeleted(RegisterSet registers)
+    {
+        return nullified();
+    }
 
-  /**
-   * Generate a String representation of a Displacement that can be
-   * used by the assembly code generater.
-   */
-  public String assembleDisp(Assembler asm, Displacement disp, int ftn)
-  {
-    if (ftn == SparcGenerator.FT_NONE)
-      return disp.assembler(asm);
+    /**
+     * Generate a String representation of a Displacement that can be
+     * used by the assembly code generater.
+     */
+    public String assembleDisp(Assembler asm, Displacement disp, int ftn)
+    {
+        if (ftn == SparcGenerator.FT_NONE) {
+            return disp.assembler(asm);
+        }
 
-    StringBuffer buf = new StringBuffer(SparcGenerator.ftns[ftn]);
-    buf.append('(');
-    buf.append(disp.assembler(asm));
-    buf.append(')');
-    return buf.toString();
-  }
+        StringBuffer buf = new StringBuffer(SparcGenerator.ftns[ftn]);
+        buf.append('(');
+        buf.append(disp.assembler(asm));
+        buf.append(')');
+        return buf.toString();
+    }
 
-  /**
-   * Insert the assembler representation of the instruction into the
-   * output stream.
-   */
-  public void assembler(Assembler gen, Emit emit)
-  {
-    emit.emit(Opcodes.getOp(this));
-  }
+    /**
+     * Insert the assembler representation of the instruction into the
+     * output stream.
+     */
+    public void assembler(Assembler gen, Emit emit)
+    {
+        emit.emit(Opcodes.getOp(this));
+    }
 
-  public String toString()
-  {
-    return Opcodes.getOp(this);
-  }
+    public String toString()
+    {
+        return Opcodes.getOp(this);
+    }
 }
