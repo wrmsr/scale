@@ -5108,7 +5108,7 @@ public class C99Parser extends antlr.LLkParser       implements C99ParserTokenTy
       istmt = new NullStmt();
 
     expr2 = trueOrFalse(expr2, t);
-    Statement stmt = new ForCloneLoopStmt(istmt, expr1, expr2, expr3, exprThdNum);
+    Statement stmt = new ForLoopStmt(istmt, expr1, expr2, expr3); //, exprThdNum); FIXME lol
     addStmtInfo(stmt, t.getLine(), t.getColumn());
     return stmt;
   }
